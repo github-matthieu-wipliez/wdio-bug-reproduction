@@ -20,9 +20,9 @@ describe("My Login application", () => {
       "#google_ads_iframe_\\/22474532520\\/velo101\\.com\\/article_2",
     );
     await browser.switchToFrame(fixedIframeElement);
-    const iframe = await waitForElement(".div-bad-scroll");
+    const divIsindeElement = await waitForElement(".div-bad-scroll");
 
-    iframe.scrollIntoView({ block: "center" });
+    divIsindeElement.scrollIntoView({ block: "center" });
     await browser.pause(40000);
   });
 });
