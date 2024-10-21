@@ -13,16 +13,33 @@ async function waitForElement(selector) {
   return element;
 }
 
+
+
+async function clickOnButton(element) {
+    const location = await element.getLocation()
+    const xtap = location.x + 150
+    const ytap = location.y + 150
+
+    return browser.touchPerform([{ action: 'tap', options: { x: xtap, y: ytap } }])
+}
+
 describe("My Login application", () => {
   it("should login with valid credentials", async () => {
+    console.log('before navigateTo: ', await browser.getWindowHandles())
     await browser.url("http://localhost:3000/src/ad-served.html");
-    const fixedIframeElement = await waitForElement(
-      "#google_ads_iframe_\\/22474532520\\/velo101\\.com\\/article_2",
-    );
-    await browser.switchToFrame(fixedIframeElement);
-    const divIsindeElement = await waitForElement(".div-bad-scroll");
 
-    divIsindeElement.scrollIntoView({ block: "center" });
-    await browser.pause(40000);
+    console.log('before browser.url: ', await browser.getWindowHandles())
+
+    const button = await waitForElement('.id_clickable')
+
+    await clickOnButton(button)
+    await browser.pause(5000)
+    console.log(await browser.getTitle()) // returns "JSON"
+
+    const handles = await browser.getWindowHandles()
+    console.log('after open json.org ', handles)
+    await browser.switchToWindow(handles[0])
+    console.log(await browser.getTitle())
+    console.log('after switchToWindow: ', await browser.getWindowHandles())
   });
 });
